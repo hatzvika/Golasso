@@ -22,13 +22,11 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 	private GameObject m_DraggingIcon;
 	private RectTransform m_DraggingPlane;
 
-	//private DropArea dropArea;
-	//private Color dropAreaColor;
-	//
-	//void OnStart(){
-	//	dropArea = GameObject.FindObjectOfType<DropArea> ();
-	//	dropAreaColor = dropArea.GetComponent<Image> ().color;
-	//}
+	private DropArea[] dropAreas;
+
+	void Start(){
+		dropAreas = GameObject.FindObjectsOfType<DropArea> ();
+	}
 
 	public void OnBeginDrag(PointerEventData eventData)
 	{
@@ -66,6 +64,10 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 		// Hide the original card to prevent the brief flicker bug and only then change its parent
 		GetComponent<Image> ().enabled = false;
 		transform.SetParent (canvas.transform, false);
+
+		foreach (DropArea dropArea in dropAreas){
+			dropArea.Highlight (true);			
+		}
 	}
 
 	public void OnDrag(PointerEventData data)
@@ -97,6 +99,10 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 		// Return the original card to the selected parent and unhide it.
 		transform.SetParent (parentToreturnTo);
 		GetComponent<Image> ().enabled = true;
+
+		foreach (DropArea dropArea in dropAreas){
+			dropArea.Highlight (false);			
+		}
 	}
 
 	static public T FindInParents<T>(GameObject go) where T : Component
