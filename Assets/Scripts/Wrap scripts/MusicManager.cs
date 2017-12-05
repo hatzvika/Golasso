@@ -28,7 +28,12 @@ public class MusicManager : MonoBehaviour {
 		if (thisLevelMusic && lastPlayedClip != sceneNumber) {
 			audioSource = GetComponent<AudioSource> ();
 			audioSource.clip = thisLevelMusic;
-			audioSource.loop = true;
+			if (sceneNumber == 0) { // Splash screen
+				audioSource.loop = false;
+			}
+			else{ 
+				audioSource.loop = true;
+			}
 			audioSource.Play ();
 			lastPlayedClip = sceneNumber;
 		}

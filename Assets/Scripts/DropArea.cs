@@ -23,7 +23,6 @@ public class DropArea : MonoBehaviour, IDropHandler {
 	}
 
 	public void Highlight (bool highlight) {
-		print ("In Highlight()");
 		Image image = GetComponent<Image>();
 		if (highlight){
 			Color highlightedColor = originalColor;

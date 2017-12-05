@@ -5,8 +5,15 @@ TagManager:
   serializedVersion: 2
   tags:
   - Hand A
-  - Game Canvas
   - Deck A
+  - Deck B
+  - Hand B
+  - Discard A
+  - Discard B
+  - Played A
+  - Played B
+  - Team A Score
+  - Team B Score
   layers:
   - Default
   - TransparentFX
