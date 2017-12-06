@@ -72,4 +72,8 @@ public class Deck<T> {
 			cards[i] = card;
 		}
 	}
+
+	public List<T> GetDiscard(){
+		return discard;
+	}
 }

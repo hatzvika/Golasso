@@ -16,11 +16,6 @@ public class Ball : MonoBehaviour {
 
 	public Sprite teamASprite;
 	public Sprite teamBSprite;
-	private Image ballImage;
-
-	void Start(){
-		ballImage = GetComponent<Image> ();
-	}
 
 	public void SetBallPosition(BallPosition newBallPosition){
 		ballPosition = newBallPosition;
@@ -39,10 +34,10 @@ public class Ball : MonoBehaviour {
 	public void SetControllingTeam(GameManager.Player newControllingTeam){
 		controllingTeam = newControllingTeam;
 		if (controllingTeam == GameManager.Player.A){
-			ballImage.sprite = teamASprite;
+			GetComponent<Image>().sprite = teamASprite;
 		}
 		else{
-			ballImage.sprite = teamBSprite;
+			GetComponent<Image>().sprite = teamBSprite;
 		}
 	}
 

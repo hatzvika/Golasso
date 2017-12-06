@@ -22,10 +22,13 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 	private GameObject m_DraggingIcon;
 	private RectTransform m_DraggingPlane;
 
-	private DropArea[] dropAreas;
+	private GameManager gameManager;
+	private DropArea dropArea;
+	private bool cardPlayedToDropArea;
 
 	void Start(){
-		dropAreas = GameObject.FindObjectsOfType<DropArea> ();
+		dropArea = GameObject.FindObjectOfType<DropArea> ();
+		gameManager = GameObject.FindObjectOfType<GameManager> ();
 	}
 
 	public void OnBeginDrag(PointerEventData eventData)
@@ -65,9 +68,11 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 		GetComponent<Image> ().enabled = false;
 		transform.SetParent (canvas.transform, false);
 
-		foreach (DropArea dropArea in dropAreas){
-			dropArea.Highlight (true);			
-		}
+		// Highlight the drop area for the player
+		dropArea.Highlight (true);
+
+		// If the card is dragged to the drop area, this value is changed to true and triggers action executions for this round
+		cardPlayedToDropArea = false;
 	}
 
 	public void OnDrag(PointerEventData data)
@@ -100,8 +105,10 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 		transform.SetParent (parentToreturnTo);
 		GetComponent<Image> ().enabled = true;
 
-		foreach (DropArea dropArea in dropAreas){
-			dropArea.Highlight (false);			
+		dropArea.Highlight (false);
+
+		if (cardPlayedToDropArea){
+			gameManager.BeginRound ();
 		}
 	}
 
@@ -120,5 +127,9 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 			t = t.parent;
 		}
 		return comp;
+	}
+
+	public void SetCardPlayedToDropArea(bool newValue){
+		cardPlayedToDropArea = newValue;
 	}
 }

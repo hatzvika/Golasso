@@ -32,7 +32,6 @@ public class AnimationManager : MonoBehaviour {
 			if (player == GameManager.Player.A) {
 				playingcard.transform.SetParent (handObjectA.transform);
 				playingcard.ShowFront ();
-				playingcard.EnableDraggable (true);
 			}
 			else{
 				playingcard.transform.SetParent (handObjectB.transform);
@@ -59,6 +58,10 @@ public class AnimationManager : MonoBehaviour {
 			card.ShowBack ();
 			card.transform.SetParent (destinationObject.transform);
 		}
+	}
 
+	public void MoveSelectedAICardToPlayArea(Card selectedCard){
+		selectedCard.transform.SetParent (playedObjectB.transform);
+		selectedCard.ShowFront ();
 	}
 }

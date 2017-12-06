@@ -20,6 +20,7 @@ public class DropArea : MonoBehaviour, IDropHandler {
 		if (d != null) {
 			d.parentToreturnTo = transform;
 		}
+		d.SetCardPlayedToDropArea (true);
 	}
 
 	public void Highlight (bool highlight) {
