@@ -51,6 +51,7 @@ public class AnimationManager : MonoBehaviour {
 				cardOne.transform.SetParent (playedObjectA.transform);
 				cardOne.GetComponent<Card> ().ShowFront ();
 			}
+			//LayoutRebuilder.ForceRebuildLayoutImmediate (deckObjectA.GetComponent<RectTransform>());
 		} else if (shufflingPlayer == GameManager.Player.B) {
 			// Move all deck B cards back to the deck
 			MoveToDeck (handObjectB, deckObjectB);
@@ -62,7 +63,6 @@ public class AnimationManager : MonoBehaviour {
 				cardOne.GetComponent<Card> ().ShowFront ();
 			}
 		}
-		LayoutRebuilder.ForceRebuildLayoutImmediate (deckObjectA.GetComponent<RectTransform>());
 	}	
 
 	private void MoveToDeck(GameObject originialObject, GameObject destinationObject){
