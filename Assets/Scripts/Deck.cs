@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Deck<T> {
+public class Deck<T>{
 	List<T> cards;
 	List<T> discard;
 	List<T> hand;
@@ -55,6 +56,7 @@ public class Deck<T> {
 		{
 			cards.Add(OneCard);
 		}
+
 		discard.Clear ();
 
 		Shuffle ();
@@ -73,7 +75,29 @@ public class Deck<T> {
 		}
 	}
 
+	public List<T> GetCards(){
+		return cards;
+	}
+
 	public List<T> GetDiscard(){
 		return discard;
 	}
+
+	public List<T> GetHand(){
+		return hand;
+	}
+
+	// This method is for taking out the ranked 1 card before shuffling everything
+	// It is like that because I can't get the Card class methods in here.
+	public void SetHand(List<T> newHand){
+		hand = newHand;
+	}
+
+	/*
+	// This method is for taking out the ranked 1 card before shuffling everything
+	// It is like that because I can't get the Card class methods in here.
+	public void SetDiscard(T newDiscard){
+		discard.Insert(0, newDiscard);
+	}*/
+
 }

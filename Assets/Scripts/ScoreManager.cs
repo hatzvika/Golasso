@@ -20,8 +20,26 @@ public class ScoreManager : MonoBehaviour {
 		updateScoreTexts ();
 	}
 
+	public void GoalScored(GameManager.Player scoringPlayer){
+		if (scoringPlayer == GameManager.Player.A){
+			scoreA++;
+		} else{
+			scoreB++;
+		}
+
+		updateScoreTexts ();
+	}
+
 	private void updateScoreTexts(){
 		textScoreA.text = scoreA.ToString ();
 		textScoreB.text = scoreB.ToString ();
+	}
+
+	public int GetScoreA(){
+		return scoreA;
+	}
+
+	public int GetScoreB(){
+		return scoreB;
 	}
 }

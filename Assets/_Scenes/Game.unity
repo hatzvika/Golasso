@@ -762,7 +762,7 @@ GameObject:
   - component: {fileID: 683176618}
   - component: {fileID: 683176617}
   m_Layer: 5
-  m_Name: Team B name
+  m_Name: Team A name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -974,8 +974,8 @@ GameObject:
   - component: {fileID: 952933498}
   - component: {fileID: 952933497}
   m_Layer: 5
-  m_Name: Team B score
-  m_TagString: Team B Score
+  m_Name: Team A score
+  m_TagString: Team A Score
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1048,8 +1048,8 @@ GameObject:
   - component: {fileID: 1109222356}
   - component: {fileID: 1109222355}
   m_Layer: 5
-  m_Name: Team A score
-  m_TagString: Team A Score
+  m_Name: Team B score
+  m_TagString: Team B Score
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1662,7 +1662,7 @@ GameObject:
   - component: {fileID: 1570306156}
   - component: {fileID: 1570306155}
   m_Layer: 5
-  m_Name: Team A name
+  m_Name: Team B name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

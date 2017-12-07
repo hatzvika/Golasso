@@ -6,9 +6,12 @@ using UnityEngine.UI;
 public class Ball : MonoBehaviour {
 
 	public enum BallPosition{
-		PlayerAField = 0,
-		Middle = 1,
-		PlayerBField = 2
+		// The values are the actual anchoredPosition values for the ball when in named part of the field.
+		PlayerAGoal = -370,
+		PlayerAField = -280,
+		Middle = 0,
+		PlayerBField = 280,
+		PlayerBGoal = 370
 	} 
 
 	private GameManager.Player controllingTeam;
@@ -19,16 +22,9 @@ public class Ball : MonoBehaviour {
 
 	public void SetBallPosition(BallPosition newBallPosition){
 		ballPosition = newBallPosition;
-		float newAnchoredYPos;
-		if (ballPosition == BallPosition.PlayerAField) {
-			newAnchoredYPos = -280f;
-		} else if (ballPosition == BallPosition.Middle) {
-			newAnchoredYPos = 280f;
-		}
-		else{
-			newAnchoredYPos = 0f;
-		}
-		GetComponent<RectTransform> ().anchoredPosition = new Vector2 (0.5f, newAnchoredYPos);
+		float newAnchoredYPos = (float) ballPosition;
+
+		GetComponent<RectTransform> ().anchoredPosition = new Vector2 (0f, newAnchoredYPos);
 	}
 
 	public void SetControllingTeam(GameManager.Player newControllingTeam){
@@ -41,12 +37,33 @@ public class Ball : MonoBehaviour {
 		}
 	}
 
-	public void FlipBall(){
-		if (controllingTeam == GameManager.Player.A) {
-			SetControllingTeam (GameManager.Player.B);
+	public bool MoveBallAction (GameManager.Player movingPlayer){
+		bool goal = false;
+		// Move only if the controlling team is the one moving
+		if (movingPlayer == controllingTeam){
+			if (movingPlayer == GameManager.Player.A){
+				if (ballPosition == BallPosition.PlayerAField){
+					SetBallPosition (BallPosition.Middle);
+				} else if (ballPosition == BallPosition.Middle){
+					SetBallPosition (BallPosition.PlayerBField);
+				} else if (ballPosition == BallPosition.PlayerBField){
+					SetBallPosition (BallPosition.PlayerBGoal);
+					goal = true;
+				}
+			}
+			else{  // movingPlayer == PlayerB
+				if (ballPosition == BallPosition.PlayerBField){
+					SetBallPosition (BallPosition.Middle);
+				} else if (ballPosition == BallPosition.Middle){
+					SetBallPosition (BallPosition.PlayerAField);
+				} else if (ballPosition == BallPosition.PlayerAField){
+					SetBallPosition (BallPosition.PlayerAGoal);
+					goal = true;
+				}
+			}
+		} else{
+			SetControllingTeam(movingPlayer);
 		}
-		else{
-			SetControllingTeam (GameManager.Player.A);
-		}
+		return goal;
 	}
 }

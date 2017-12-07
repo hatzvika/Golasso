@@ -108,7 +108,7 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 		dropArea.Highlight (false);
 
 		if (cardPlayedToDropArea){
-			gameManager.BeginRound ();
+			gameManager.ExecuteRound (GetComponent<Card>());
 		}
 	}
 

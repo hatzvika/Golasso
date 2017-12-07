@@ -40,16 +40,29 @@ public class AnimationManager : MonoBehaviour {
 		}
 	}
 
-	public void ParentAllCardsToDeckObject(){
-		// Move all deck A cards back to the deck
-		MoveToDeck (handObjectA, deckObjectA);
-		MoveToDeck (discardObjectA, deckObjectA);
-		MoveToDeck (playedObjectA, deckObjectA);
-
-		// Move all deck B cards back to the deck
-		MoveToDeck (handObjectB, deckObjectB);
-		MoveToDeck (discardObjectB, deckObjectB);
-		MoveToDeck (playedObjectB, deckObjectB);
+	public void ParentAllCardsToDeckObject(GameManager.Player shufflingPlayer, bool excludeRankOne){
+		if (shufflingPlayer == GameManager.Player.A) {
+			// Move all deck A cards back to the deck
+			MoveToDeck (handObjectA, deckObjectA);
+			MoveToDeck (discardObjectA, deckObjectA);
+			MoveToDeck (playedObjectA, deckObjectA);
+			if (excludeRankOne){
+				GameObject cardOne = GameObject.Find("Card_1A");
+				cardOne.transform.SetParent (playedObjectA.transform);
+				cardOne.GetComponent<Card> ().ShowFront ();
+			}
+		} else if (shufflingPlayer == GameManager.Player.B) {
+			// Move all deck B cards back to the deck
+			MoveToDeck (handObjectB, deckObjectB);
+			MoveToDeck (discardObjectB, deckObjectB);
+			MoveToDeck (playedObjectB, deckObjectB);
+			if (excludeRankOne){
+				GameObject cardOne = GameObject.Find("Card_1B");
+				cardOne.transform.SetParent (playedObjectB.transform);
+				cardOne.GetComponent<Card> ().ShowFront ();
+			}
+		}
+		LayoutRebuilder.ForceRebuildLayoutImmediate (deckObjectA.GetComponent<RectTransform>());
 	}	
 
 	private void MoveToDeck(GameObject originialObject, GameObject destinationObject){
@@ -63,5 +76,10 @@ public class AnimationManager : MonoBehaviour {
 	public void MoveSelectedAICardToPlayArea(Card selectedCard){
 		selectedCard.transform.SetParent (playedObjectB.transform);
 		selectedCard.ShowFront ();
+	}
+
+	public void MovePlayedCardsToDiscard(Card playerCard, Card AICard){
+		playerCard.transform.SetParent (discardObjectA.transform);
+		AICard.transform.SetParent (discardObjectB.transform);
 	}
 }
