@@ -43,10 +43,13 @@ public class Ball : MonoBehaviour {
 		if (movingPlayer == controllingTeam){
 			if (movingPlayer == GameManager.Player.A){
 				if (ballPosition == BallPosition.PlayerAField){
+					//iTween.MoveTo (gameObject, iTween.Hash ("y", BallPosition.Middle, "time", 1.0f, "easeType", iTween.EaseType.easeInOutSine));
 					SetBallPosition (BallPosition.Middle);
 				} else if (ballPosition == BallPosition.Middle){
+					//iTween.MoveTo (gameObject, iTween.Hash ("y", BallPosition.PlayerBField, "time", 1.0f, "easeType", iTween.EaseType.easeInOutSine));
 					SetBallPosition (BallPosition.PlayerBField);
 				} else if (ballPosition == BallPosition.PlayerBField){
+					//iTween.MoveTo (gameObject, iTween.Hash ("y", BallPosition.PlayerBGoal, "time", 1.0f, "easeType", iTween.EaseType.easeInOutSine));
 					SetBallPosition (BallPosition.PlayerBGoal);
 					goal = true;
 				}
