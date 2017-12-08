@@ -11,7 +11,7 @@ public class AnimationManager : MonoBehaviour {
 	GameObject handObjectB;
 	GameObject discardObjectA;
 	GameObject discardObjectB;
-	GameObject playedObjectA;
+	//GameObject playedObjectA;
 	GameObject playedObjectB;
 
 	void Start ()
@@ -23,7 +23,7 @@ public class AnimationManager : MonoBehaviour {
 		handObjectB = GameObject.FindGameObjectWithTag ("Hand B");
 		discardObjectA = GameObject.FindGameObjectWithTag ("Discard A");
 		discardObjectB = GameObject.FindGameObjectWithTag ("Discard B");
-		playedObjectA = GameObject.FindGameObjectWithTag ("Played A");
+		//playedObjectA = GameObject.FindGameObjectWithTag ("Played A");
 		playedObjectB = GameObject.FindGameObjectWithTag ("Played B");
 	}
 
@@ -40,28 +40,21 @@ public class AnimationManager : MonoBehaviour {
 		}
 	}
 
-	public void ParentAllCardsToDeckObject(GameManager.Player shufflingPlayer, bool excludeRankOne){
+	public void ParentAllCardsToDeckObject(){
+		// Move all deck A cards back to the deck
+		MoveToDeck (handObjectA, deckObjectA);
+		MoveToDeck (discardObjectA, deckObjectA);
+			
+		// Move all deck B cards back to the deck
+		MoveToDeck (handObjectB, deckObjectB);
+		MoveToDeck (discardObjectB, deckObjectB);
+	}	
+
+	public void ParentDiscardCardsToDeckObject(GameManager.Player shufflingPlayer){
 		if (shufflingPlayer == GameManager.Player.A) {
-			// Move all deck A cards back to the deck
-			MoveToDeck (handObjectA, deckObjectA);
 			MoveToDeck (discardObjectA, deckObjectA);
-			MoveToDeck (playedObjectA, deckObjectA);
-			if (excludeRankOne){
-				GameObject cardOne = GameObject.Find("Card_1A");
-				cardOne.transform.SetParent (playedObjectA.transform);
-				cardOne.GetComponent<Card> ().ShowFront ();
-			}
-			//LayoutRebuilder.ForceRebuildLayoutImmediate (deckObjectA.GetComponent<RectTransform>());
 		} else if (shufflingPlayer == GameManager.Player.B) {
-			// Move all deck B cards back to the deck
-			MoveToDeck (handObjectB, deckObjectB);
 			MoveToDeck (discardObjectB, deckObjectB);
-			MoveToDeck (playedObjectB, deckObjectB);
-			if (excludeRankOne){
-				GameObject cardOne = GameObject.Find("Card_1B");
-				cardOne.transform.SetParent (playedObjectB.transform);
-				cardOne.GetComponent<Card> ().ShowFront ();
-			}
 		}
 	}	
 
