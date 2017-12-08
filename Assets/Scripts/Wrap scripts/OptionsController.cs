@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class OptionsController : MonoBehaviour {
 
 	public Slider volumeSlider;
-	public Slider difficultySlider;
 	public LevelManager levelManager;
 
 	private MusicManager musicManager;
@@ -30,6 +29,5 @@ public class OptionsController : MonoBehaviour {
 
 	public void SetDefaults(){
 		volumeSlider.value = 0.8f;
-		difficultySlider.value = 2f;
 	}
 }

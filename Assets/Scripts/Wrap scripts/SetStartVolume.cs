@@ -11,13 +11,12 @@ public class SetStartVolume : MonoBehaviour {
 		musicManager = GameObject.FindObjectOfType<MusicManager> ();
 
 		if (musicManager){
-			float volume = PlayerPrefsManager.GetMasterVolume();
-			musicManager.SetVolume (volume);
+			if (PlayerPrefs.HasKey ("master_volume")) {
+				float volume = PlayerPrefsManager.GetMasterVolume ();
+				musicManager.SetVolume (volume);
+			} else{
+				musicManager.SetVolume (0.8f);
+			}
 		}
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
 	}
 }
