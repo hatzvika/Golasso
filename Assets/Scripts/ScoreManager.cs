@@ -1,45 +1,29 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 
-public class ScoreManager : MonoBehaviour {
+public static class ScoreManager{
 
-	private Text textScoreA, textScoreB;
-	private int scoreA, scoreB;
+	private static int scoreA, scoreB;
 
-	void Start(){
-		textScoreA = GameObject.FindGameObjectWithTag ("Team A Score").GetComponent<Text>();
-		textScoreB = GameObject.FindGameObjectWithTag ("Team B Score").GetComponent<Text>();
-	}
-
-	public void ResetScore(){
+	public static void ResetScore(){
 		scoreA = 0;
 		scoreB = 0;
-
-		updateScoreTexts ();
 	}
 
-	public void GoalScored(GameManager.Player scoringPlayer){
+	public static void GoalScored(GameManager.Player scoringPlayer){
 		if (scoringPlayer == GameManager.Player.A){
 			scoreA++;
 		} else{
 			scoreB++;
 		}
-
-		updateScoreTexts ();
 	}
 
-	private void updateScoreTexts(){
-		textScoreA.text = scoreA.ToString ();
-		textScoreB.text = scoreB.ToString ();
-	}
-
-	public int GetScoreA(){
+	public static int GetScoreA(){
 		return scoreA;
 	}
 
-	public int GetScoreB(){
+	public static int GetScoreB(){
 		return scoreB;
 	}
 }
