@@ -20,7 +20,9 @@ public class AudioOnOff : MonoBehaviour {
 
 		button = GetComponent<Button> ();
 		button.image.overrideSprite = onImage;
-		volumeOn = musicManager.GetVolume ();
+		if (musicManager) {
+			volumeOn = musicManager.GetVolume ();
+		}
 	}
 
 	public void ChangeAudioState(){
