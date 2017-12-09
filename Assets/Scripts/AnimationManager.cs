@@ -27,16 +27,60 @@ public class AnimationManager : MonoBehaviour {
 		playedObjectB = GameObject.FindGameObjectWithTag ("Played B");
 	}
 
-	public void DrawToHand (List<Card> hand, GameManager.Player player){
-		foreach (Card playingcard in hand) {
+	public IEnumerator DrawToHand (List<Card> hand, GameManager.Player player){
+		foreach (Card playingCard in hand) {
+			Hashtable param = new Hashtable();
 			if (player == GameManager.Player.A) {
-				playingcard.transform.SetParent (handObjectA.transform);
-				playingcard.ShowFront ();
+				if (playingCard.transform.parent == deckObjectA.transform) {
+					param.Add ("Card", playingCard);
+					param.Add ("parentToSet", handObjectA);
+					param.Add ("showFace", true);
+
+					//playingCard.transform.position = (new Vector2 (3f, -0.5f));
+					iTween.MoveTo (
+						playingCard.gameObject, 
+						iTween.Hash ("x", 3.4f,
+							"y", 1.2f, 
+							"time", 0.5,
+							"easeType", "easeInOutQuad",
+							"oncomplete", "SetCardParentAfterAnimation",
+							"oncompletetarget", gameObject,
+							"oncompleteparams", param));
+					yield return new WaitForSeconds (0.2f);
+				}
 			}
 			else{
-				playingcard.transform.SetParent (handObjectB.transform);
-				playingcard.ShowBack ();
+				if (playingCard.transform.parent == deckObjectB.transform) {
+					param.Add ("Card", playingCard);
+					param.Add ("parentToSet", handObjectB);
+					param.Add ("showFace", false);
+
+					//playingCard.transform.position = (new Vector2 (3f, 6.5f));
+					iTween.MoveTo (
+						playingCard.gameObject, 
+						iTween.Hash ("x", 3.4f,
+							"y", 4.8f, 
+							"time", 0.5,
+							"easeType", "easeInOutQuad",
+							"oncomplete", "SetCardParentAfterAnimation",
+							"oncompletetarget", gameObject,
+							"oncompleteparams", param));
+					yield return new WaitForSeconds (0.2f);
+				}
 			}
+		}
+		yield return null;
+	}
+
+	private void SetCardParentAfterAnimation(object ht){
+		Hashtable param = (Hashtable)ht;
+		Card playingCard = (Card)param ["Card"];
+		GameObject parentToSet = (GameObject)param ["parentToSet"];
+		bool showFace = (bool)param ["showFace"];
+
+		playingCard.transform.SetParent (parentToSet.transform);
+		if (showFace) {
+			playingCard.ShowFront ();
 		}
 	}
 
