@@ -35,4 +35,8 @@ public class AudioOnOff : MonoBehaviour {
 			musicManager.SetVolume (0);
 		}
 	}
+
+	public bool GetAudioOn(){
+		return audioOn;
+	}
 }

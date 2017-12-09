@@ -19,7 +19,7 @@ public class Ball : MonoBehaviour {
 
 	private GameManager.Player controllingTeam;
 	private BallPosition ballPosition;
-	private float ballAnimationTime = 2;
+	private float ballAnimationTime = 1f;
 
 	public void SetBallPosition(BallPosition newBallPosition){
 		ballPosition = newBallPosition;
