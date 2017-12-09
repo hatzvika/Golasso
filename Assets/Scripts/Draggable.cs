@@ -108,7 +108,8 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 		dropArea.Highlight (false);
 
 		if (cardPlayedToDropArea){
-			gameManager.ExecuteRound (GetComponent<Card>());
+			// This ExecuteRound function is an asynchronous coRoutine because all the animations need to finish before the code resumes
+			StartCoroutine(gameManager.ExecuteRound (GetComponent<Card>()));
 		}
 	}
 

@@ -37,36 +37,53 @@ public class Ball : MonoBehaviour {
 		}
 	}
 
-	public bool MoveBallAction (GameManager.Player movingPlayer){
-		bool goal = false;
+	// This function is an asynchronous coRoutine because all the animations need to finish before the code resumes
+	public IEnumerator MoveBallAction (GameManager.Player movingPlayer){
+		float moveTime = 2;
+		float moveBy = 2.1f;
+
 		// Move only if the controlling team is the one moving
 		if (movingPlayer == controllingTeam){
 			if (movingPlayer == GameManager.Player.A){
 				if (ballPosition == BallPosition.PlayerAField){
-					//iTween.MoveTo (gameObject, iTween.Hash ("y", BallPosition.Middle, "time", 1.0f, "easeType", iTween.EaseType.easeInOutSine));
-					SetBallPosition (BallPosition.Middle);
+					iTween.MoveBy(gameObject, iTween.Hash("y" , moveBy, "time", moveTime, "easeType","easeInOutQuad"));
+					ballPosition = BallPosition.Middle;
+					yield return new WaitForSeconds (moveTime);
 				} else if (ballPosition == BallPosition.Middle){
-					//iTween.MoveTo (gameObject, iTween.Hash ("y", BallPosition.PlayerBField, "time", 1.0f, "easeType", iTween.EaseType.easeInOutSine));
-					SetBallPosition (BallPosition.PlayerBField);
+					iTween.MoveBy(gameObject, iTween.Hash("y" , moveBy, "time", moveTime, "easeType","easeInOutQuad"));
+					ballPosition = BallPosition.PlayerBField;
+					yield return new WaitForSeconds (moveTime);
 				} else if (ballPosition == BallPosition.PlayerBField){
-					//iTween.MoveTo (gameObject, iTween.Hash ("y", BallPosition.PlayerBGoal, "time", 1.0f, "easeType", iTween.EaseType.easeInOutSine));
-					SetBallPosition (BallPosition.PlayerBGoal);
-					goal = true;
+					iTween.MoveBy(gameObject, iTween.Hash("y" , moveBy/2, "time", moveTime, "easeType","easeInOutQuad"));
+					ballPosition = BallPosition.PlayerBGoal;
+					yield return new WaitForSeconds (moveTime);
 				}
 			}
 			else{  // movingPlayer == PlayerB
 				if (ballPosition == BallPosition.PlayerBField){
-					SetBallPosition (BallPosition.Middle);
+					iTween.MoveBy(gameObject, iTween.Hash("y" , -moveBy, "time", moveTime, "easeType","easeInOutQuad"));
+					ballPosition = BallPosition.Middle;
+					yield return new WaitForSeconds (moveTime);
 				} else if (ballPosition == BallPosition.Middle){
-					SetBallPosition (BallPosition.PlayerAField);
+					iTween.MoveBy(gameObject, iTween.Hash("y" , -moveBy, "time", moveTime, "easeType","easeInOutQuad"));
+					ballPosition = BallPosition.PlayerAField;
+					yield return new WaitForSeconds (moveTime);
 				} else if (ballPosition == BallPosition.PlayerAField){
-					SetBallPosition (BallPosition.PlayerAGoal);
-					goal = true;
+					iTween.MoveBy(gameObject, iTween.Hash("y" , -(moveBy/2), "time", moveTime, "easeType","easeInOutQuad"));
+					ballPosition = BallPosition.PlayerAGoal;
+					yield return new WaitForSeconds (moveTime);
 				}
 			}
 		} else{
 			SetControllingTeam(movingPlayer);
 		}
-		return goal;
+	}
+
+	public bool GoalScored (){
+		if (ballPosition == BallPosition.PlayerAGoal || ballPosition == BallPosition.PlayerBGoal){
+			return true;
+		} else{
+			return false;
+		}
 	}
 }

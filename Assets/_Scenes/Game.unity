@@ -1224,7 +1224,7 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d3d09c632bd5fee44942d364ecd58ad6, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &1293918898 stripped
+--- !u!114 &1293918899 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114322294463534920, guid: d3d09c632bd5fee44942d364ecd58ad6,
     type: 2}
@@ -1345,7 +1345,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1293918898}
+      - m_Target: {fileID: 1293918899}
         m_MethodName: LoadLevel
         m_Mode: 5
         m_Arguments:
