@@ -11,7 +11,6 @@ public class AnimationManager : MonoBehaviour {
 	GameObject handObjectB;
 	GameObject discardObjectA;
 	GameObject discardObjectB;
-	//GameObject playedObjectA;
 	GameObject playedObjectB;
 
 	void Start ()
@@ -23,7 +22,6 @@ public class AnimationManager : MonoBehaviour {
 		handObjectB = GameObject.FindGameObjectWithTag ("Hand B");
 		discardObjectA = GameObject.FindGameObjectWithTag ("Discard A");
 		discardObjectB = GameObject.FindGameObjectWithTag ("Discard B");
-		//playedObjectA = GameObject.FindGameObjectWithTag ("Played A");
 		playedObjectB = GameObject.FindGameObjectWithTag ("Played B");
 	}
 
@@ -36,11 +34,13 @@ public class AnimationManager : MonoBehaviour {
 					param.Add ("parentToSet", handObjectA);
 					param.Add ("showFace", true);
 
+					Vector3 handPos = handObjectA.transform.position;
+
 					//playingCard.transform.position = (new Vector2 (3f, -0.5f));
 					iTween.MoveTo (
 						playingCard.gameObject, 
-						iTween.Hash ("x", 3.4f,
-							"y", 1.2f, 
+						iTween.Hash ("x", handPos.x + 1.2,
+							"y", handPos.y + 0.8, 
 							"time", 0.5,
 							"easeType", "easeInOutQuad",
 							"oncomplete", "SetCardParentAfterAnimation",
@@ -55,11 +55,13 @@ public class AnimationManager : MonoBehaviour {
 					param.Add ("parentToSet", handObjectB);
 					param.Add ("showFace", false);
 
+					Vector3 handPos = handObjectB.transform.position;
+
 					//playingCard.transform.position = (new Vector2 (3f, 6.5f));
 					iTween.MoveTo (
 						playingCard.gameObject, 
-						iTween.Hash ("x", 3.4f,
-							"y", 4.8f, 
+						iTween.Hash ("x", handPos.x + 1.2,
+							"y", handPos.y + 0.8, 
 							"time", 0.5,
 							"easeType", "easeInOutQuad",
 							"oncomplete", "SetCardParentAfterAnimation",
@@ -81,6 +83,8 @@ public class AnimationManager : MonoBehaviour {
 		playingCard.transform.SetParent (parentToSet.transform);
 		if (showFace) {
 			playingCard.ShowFront ();
+		} else {
+			playingCard.ShowBack ();
 		}
 	}
 
@@ -94,13 +98,63 @@ public class AnimationManager : MonoBehaviour {
 		MoveToDeck (discardObjectB, deckObjectB);
 	}	
 
-	public void ParentDiscardCardsToDeckObject(GameManager.Player shufflingPlayer){
+	public IEnumerator ParentDiscardCardsToDeckObject(GameManager.Player shufflingPlayer){
 		if (shufflingPlayer == GameManager.Player.A) {
-			MoveToDeck (discardObjectA, deckObjectA);
+			yield return MoveToDeckAnimation (discardObjectA, deckObjectA);
+			yield return new WaitUntil(() => discardObjectA.transform.childCount == 0);
 		} else if (shufflingPlayer == GameManager.Player.B) {
-			MoveToDeck (discardObjectB, deckObjectB);
+			yield return MoveToDeckAnimation (discardObjectB, deckObjectB);
+			yield return new WaitUntil(() => discardObjectB.transform.childCount == 0);
 		}
+
 	}	
+
+	private IEnumerator MoveToDeckAnimation (GameObject originialObject, GameObject destinationObject)
+	{
+		Card[] cardList = originialObject.GetComponentsInChildren<Card> ();
+		foreach (Card playingCard in cardList) {
+			Hashtable param = new Hashtable();
+			if (playingCard.transform.parent == discardObjectA.transform) {
+				param.Add ("Card", playingCard);
+				param.Add ("parentToSet", deckObjectA);
+				param.Add ("showFace", false);
+
+				Vector3 deckPos = deckObjectA.transform.position;
+
+				//playingCard.transform.position = (new Vector2 (3f, -0.5f));
+				iTween.MoveTo (
+					playingCard.gameObject, 
+					iTween.Hash ("x", deckPos.x,
+						"y", deckPos.y+0.5, 
+						"time", 0.5,
+						"easeType", "easeInOutQuad",
+						"oncomplete", "SetCardParentAfterAnimation",
+						"oncompletetarget", gameObject,
+						"oncompleteparams", param));
+				yield return new WaitForSeconds (0.2f);
+			} else {
+				if (playingCard.transform.parent == discardObjectB.transform) {
+					param.Add ("Card", playingCard);
+					param.Add ("parentToSet", deckObjectB);
+					param.Add ("showFace", false);
+
+					Vector3 deckPos = deckObjectB.transform.position;
+
+					//playingCard.transform.position = (new Vector2 (3f, 6.5f));
+					iTween.MoveTo (
+						playingCard.gameObject, 
+						iTween.Hash ("x", deckPos.x,
+							"y", deckPos.y+0.5, 
+							"time", 0.5,
+							"easeType", "easeInOutQuad",
+							"oncomplete", "SetCardParentAfterAnimation",
+							"oncompletetarget", gameObject,
+							"oncompleteparams", param));
+					yield return new WaitForSeconds (0.2f);
+				}
+			}
+		}
+	}
 
 	private void MoveToDeck(GameObject originialObject, GameObject destinationObject){
 		Card[] cardList = originialObject.GetComponentsInChildren<Card> ();
