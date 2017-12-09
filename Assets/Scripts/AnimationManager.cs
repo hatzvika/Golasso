@@ -70,25 +70,28 @@ public class AnimationManager : MonoBehaviour {
 		GameObject deckObject = playerAreas.transform.Find ("Deck").gameObject;
 		GameObject discardObject = playerAreas.transform.Find ("Discard").gameObject;
 
-		yield return MoveToDeckAnimation (discardObject, deckObject);
+		bool showFace = false;
+		float xOffset = 0;
+		float yOffset = 0.5f;
+		yield return MoveCardsAnimation (discardObject, deckObject, showFace, xOffset, yOffset);
 		yield return new WaitUntil(() => discardObject.transform.childCount == 0);
 	}	
 
-	private IEnumerator MoveToDeckAnimation (GameObject originialObject, GameObject destinationObject)
+	private IEnumerator MoveCardsAnimation (GameObject originialObject, GameObject destinationObject, bool showFace, float xOffset, float yOffset)
 	{
 		Card[] cardList = originialObject.GetComponentsInChildren<Card> ();
 		foreach (Card playingCard in cardList) {
 			Hashtable param = new Hashtable ();
 			param.Add ("Card", playingCard);
 			param.Add ("parentToSet", destinationObject);
-			param.Add ("showFace", false);
+			param.Add ("showFace", showFace);
 
 			Vector3 deckPos = destinationObject.transform.position;
 
 			iTween.MoveTo (
 				playingCard.gameObject, 
-				iTween.Hash ("x", deckPos.x,
-					"y", deckPos.y + 0.5, 
+				iTween.Hash ("x", deckPos.x + xOffset,
+					"y", deckPos.y + yOffset, 
 					"time", 0.5,
 					"easeType", "easeInOutQuad",
 					"oncomplete", "SetCardParentAfterAnimation",
@@ -106,15 +109,42 @@ public class AnimationManager : MonoBehaviour {
 		}
 	}
 
-	public void MoveSelectedAICardToPlayArea(Card selectedCard, GameObject playerBAreas){
+	public IEnumerator MoveSelectedAICardToPlayArea(Card selectedCard, GameObject playerBAreas){
+
 		GameObject playedObjectAI = playerBAreas.transform.Find ("Played Card").gameObject;
 
-		selectedCard.transform.SetParent (playedObjectAI.transform);
-		selectedCard.ShowFront ();
+		Hashtable param = new Hashtable ();
+		param.Add ("Card", selectedCard);
+		param.Add ("parentToSet", playedObjectAI);
+		param.Add ("showFace", true);
+
+		Vector3 deckPos = playedObjectAI.transform.position;
+
+		iTween.MoveTo (
+			selectedCard.gameObject, 
+			iTween.Hash ("x", deckPos.x,
+				"y", deckPos.y, 
+				"time", 0.5,
+				"easeType", "easeInOutQuad",
+				"oncomplete", "SetCardParentAfterAnimation",
+				"oncompletetarget", gameObject,
+				"oncompleteparams", param));
+
+		yield return new WaitUntil(() => playedObjectAI.transform.childCount == 1);
 	}
 
-	public void MovePlayedCardsToDiscard(Card playerCard, Card AICard, GameObject playerAAreas, GameObject playerBAreas){
-		playerCard.transform.SetParent (playerAAreas.transform.Find("Discard").transform);
-		AICard.transform.SetParent (playerBAreas.transform.Find("Discard").transform);
+	public IEnumerator MovePlayedCardsToDiscard(Card playerCard, Card AICard, GameObject playerAAreas, GameObject playerBAreas){
+		GameObject discardObjectA = playerAAreas.transform.Find("Discard").gameObject;
+		GameObject discardObjectB = playerBAreas.transform.Find ("Discard").gameObject;
+		GameObject playedObjectA = playerAAreas.transform.Find("Played Card").gameObject;
+		GameObject playedObjectB = playerBAreas.transform.Find ("Played Card").gameObject;
+
+		bool showFace = true;
+		float xOffset = 0;
+		float yOffset = 1;
+		yield return MoveCardsAnimation (playedObjectA, discardObjectA, showFace, xOffset, yOffset);
+		yield return MoveCardsAnimation (playedObjectB, discardObjectB, showFace, xOffset, -yOffset);
+		yield return new WaitUntil(() => playedObjectA.transform.childCount == 0);
+		yield return new WaitUntil(() => playedObjectB.transform.childCount == 0);
 	}
 }
