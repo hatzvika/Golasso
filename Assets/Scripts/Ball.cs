@@ -14,11 +14,12 @@ public class Ball : MonoBehaviour {
 		PlayerBGoal = 370
 	} 
 
-	private GameManager.Player controllingTeam;
-	private BallPosition ballPosition;
-
 	public Sprite teamASprite;
 	public Sprite teamBSprite;
+
+	private GameManager.Player controllingTeam;
+	private BallPosition ballPosition;
+	private float ballAnimationTime = 2;
 
 	public void SetBallPosition(BallPosition newBallPosition){
 		ballPosition = newBallPosition;
@@ -39,51 +40,58 @@ public class Ball : MonoBehaviour {
 
 	// This function is an asynchronous coRoutine because all the animations need to finish before the code resumes
 	public IEnumerator MoveBallAction (GameManager.Player movingPlayer){
-		float moveTime = 2;
 		float moveBy = 2.1f;
 
 		// Move only if the controlling team is the one moving
 		if (movingPlayer == controllingTeam){
 			if (movingPlayer == GameManager.Player.A){
 				if (ballPosition == BallPosition.PlayerAField){
-					iTween.MoveBy(gameObject, iTween.Hash("y" , moveBy, "time", moveTime, "easeType","easeInOutQuad"));
+					iTween.MoveBy(gameObject, iTween.Hash("y" , moveBy, "time", ballAnimationTime, "easeType","easeInOutQuad"));
 					ballPosition = BallPosition.Middle;
-					yield return new WaitForSeconds (moveTime);
+					yield return new WaitForSeconds (ballAnimationTime);
 				} else if (ballPosition == BallPosition.Middle){
-					iTween.MoveBy(gameObject, iTween.Hash("y" , moveBy, "time", moveTime, "easeType","easeInOutQuad"));
+					iTween.MoveBy(gameObject, iTween.Hash("y" , moveBy, "time", ballAnimationTime, "easeType","easeInOutQuad"));
 					ballPosition = BallPosition.PlayerBField;
-					yield return new WaitForSeconds (moveTime);
+					yield return new WaitForSeconds (ballAnimationTime);
 				} else if (ballPosition == BallPosition.PlayerBField){
-					iTween.MoveBy(gameObject, iTween.Hash("y" , moveBy/2, "time", moveTime, "easeType","easeInOutQuad"));
+					iTween.MoveBy(gameObject, iTween.Hash("y" , moveBy/2, "time", ballAnimationTime, "easeType","easeInOutQuad"));
 					ballPosition = BallPosition.PlayerBGoal;
-					yield return new WaitForSeconds (moveTime);
+					yield return new WaitForSeconds (ballAnimationTime);
 				}
 			}
 			else{  // movingPlayer == PlayerB
 				if (ballPosition == BallPosition.PlayerBField){
-					iTween.MoveBy(gameObject, iTween.Hash("y" , -moveBy, "time", moveTime, "easeType","easeInOutQuad"));
+					iTween.MoveBy(gameObject, iTween.Hash("y" , -moveBy, "time", ballAnimationTime, "easeType","easeInOutQuad"));
 					ballPosition = BallPosition.Middle;
-					yield return new WaitForSeconds (moveTime);
+					yield return new WaitForSeconds (ballAnimationTime);
 				} else if (ballPosition == BallPosition.Middle){
-					iTween.MoveBy(gameObject, iTween.Hash("y" , -moveBy, "time", moveTime, "easeType","easeInOutQuad"));
+					iTween.MoveBy(gameObject, iTween.Hash("y" , -moveBy, "time", ballAnimationTime, "easeType","easeInOutQuad"));
 					ballPosition = BallPosition.PlayerAField;
-					yield return new WaitForSeconds (moveTime);
+					yield return new WaitForSeconds (ballAnimationTime);
 				} else if (ballPosition == BallPosition.PlayerAField){
-					iTween.MoveBy(gameObject, iTween.Hash("y" , -(moveBy/2), "time", moveTime, "easeType","easeInOutQuad"));
+					iTween.MoveBy(gameObject, iTween.Hash("y" , -(moveBy/2), "time", ballAnimationTime, "easeType","easeInOutQuad"));
 					ballPosition = BallPosition.PlayerAGoal;
-					yield return new WaitForSeconds (moveTime);
+					yield return new WaitForSeconds (ballAnimationTime);
 				}
 			}
 		} else{
+			yield return new WaitForSeconds (ballAnimationTime/2);
 			SetControllingTeam(movingPlayer);
+			yield return new WaitForSeconds (ballAnimationTime/2);
 		}
 	}
 
+	// This is used by GameManager.ResolveActions script, because once the
+	// MoveBallAction function became coroutine, I couldn't return the goalScored boll.
 	public bool GoalScored (){
 		if (ballPosition == BallPosition.PlayerAGoal || ballPosition == BallPosition.PlayerBGoal){
 			return true;
 		} else{
 			return false;
 		}
+	}
+
+	public float GetBallAnimationTime(){
+		return ballAnimationTime;
 	}
 }
