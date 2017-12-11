@@ -5,6 +5,15 @@ using UnityEngine.UI;
 
 public class AnimationManager : MonoBehaviour {
 
+	// These are used to animate the cards to their exact discard cell in the discard grid layout group
+	Vector2[] offsetsDiscardA = new Vector2[9];
+	Vector2[] offsetsDiscardB = new Vector2[9];
+
+	void Start(){
+		// For the discard move animations
+		CalculateOffsetDiscards ();
+	}
+
 	public IEnumerator DrawToHand (List<Card> hand, GameObject playerAreas, GameManager.Player player){
 		
 		GameObject deckObject = playerAreas.transform.Find ("Deck").gameObject;
@@ -60,10 +69,12 @@ public class AnimationManager : MonoBehaviour {
 		GameObject deckObject = playerAreas.transform.Find ("Deck").gameObject;
 		GameObject handObject = playerAreas.transform.Find ("Hand").gameObject;
 		GameObject discardObject = playerAreas.transform.Find ("Discard").gameObject;
+		GameObject playedCardObject = playerAreas.transform.Find ("Played Card").gameObject;
 
 		MoveToDeck (handObject, deckObject);
 		MoveToDeck (discardObject, deckObject);
-		yield return new WaitUntil(() => playerAreas.transform.Find("Discard").childCount == 0);
+		MoveToDeck (playedCardObject, deckObject);
+		yield return new WaitUntil(() => ((discardObject.transform.childCount == 0) && (playedCardObject.transform.childCount == 0)));
 	}	
 
 	public IEnumerator ParentDiscardCardsToDeckObject(GameObject playerAreas){
@@ -140,11 +151,86 @@ public class AnimationManager : MonoBehaviour {
 		GameObject playedObjectB = playerBAreas.transform.Find ("Played Card").gameObject;
 
 		bool showFace = true;
-		float xOffset = 0;
-		float yOffset = 1;
-		yield return MoveCardsAnimation (playedObjectA, discardObjectA, showFace, xOffset, yOffset);
-		yield return MoveCardsAnimation (playedObjectB, discardObjectB, showFace, xOffset, -yOffset);
-		yield return new WaitUntil(() => playedObjectA.transform.childCount == 0);
-		yield return new WaitUntil(() => playedObjectB.transform.childCount == 0);
+
+		int discardedCountA = discardObjectA.transform.childCount;
+		int discardedCountB = discardObjectB.transform.childCount;
+
+		// Do not discard the 10th card, as it is the end of a half or the game
+		if (discardedCountA < 9 && discardedCountB < 9) {
+
+			// Find the discard cell's offsets
+			Vector2 offset = offsetsDiscardA [discardedCountA];
+			float xOffset = offset.x;
+			float yOffset = offset.y;
+
+			// FIRST SCALE and only THEN MOVE. I don't know why, but switching won't work.
+			// Scale card
+			iTween.ScaleTo (
+				playerCard.gameObject, 
+				iTween.Hash ("x", 0.52f,
+					"y", 0.52f, 
+					"time", 0.5,
+					"easeType", "easeInOutQuad"));
+			// move card
+			yield return MoveCardsAnimation (playedObjectA, discardObjectA, showFace, xOffset, yOffset);
+
+			// FIRST SCALE and only THEN MOVE. I don't know why, but switching won't work.
+			// Scale card
+			iTween.ScaleTo (
+				AICard.gameObject, 
+				iTween.Hash ("x", 0.52f,
+					"y", 0.52f, 
+					"time", 0.5,
+					"easeType", "easeInOutQuad"));
+
+			offset = offsetsDiscardB [discardedCountB];
+			xOffset = offset.x;
+			yOffset = offset.y;
+			// move card
+			yield return MoveCardsAnimation (playedObjectB, discardObjectB, showFace, xOffset, yOffset);
+
+			yield return new WaitUntil (() => playedObjectA.transform.childCount == 0);
+			// Return the card to it's original scale in the new parent
+			playerCard.transform.localScale = new Vector3 (1f, 1f, 1f);
+			yield return new WaitUntil (() => playedObjectB.transform.childCount == 0);
+			// Return the card to it's original scale in the new parent
+			AICard.transform.localScale = new Vector3 (1f, 1f, 1f);
+		}
+	}
+
+	// These Vecto2 arrays are used to animate the cards to their exact discard cell in the discard grid layout group
+	void CalculateOffsetDiscards ()
+	{
+		GameObject playerAAreas = GameObject.Find ("Player A Areas").gameObject;
+		GameObject discardObjectA = playerAAreas.GetComponentInChildren<GridLayoutGroup> ().gameObject;
+
+		// Calculate cell width and hegiht in discard grid layout group 
+		Vector3[] corners = new Vector3[4];
+		discardObjectA.GetComponent<RectTransform> ().GetWorldCorners (corners);
+		float gridWidth = corners [2].x - corners [0].x;
+		float gridHeight = corners [2].y - corners [0].y;
+		float cellWidth = gridWidth / 3;
+		float cellHeight = gridHeight / 3;
+
+		// Offsets for the move card to discard animation for each cell in the layoutgroup.
+		offsetsDiscardA [0] = new Vector2 (-cellWidth,	2.5f * cellHeight);
+		offsetsDiscardA [1] = new Vector2 (0, 			2.5f * cellHeight);
+		offsetsDiscardA [2] = new Vector2 (cellWidth, 	2.5f * cellHeight);
+		offsetsDiscardA [3] = new Vector2 (-cellWidth, 	1.5f * cellHeight);
+		offsetsDiscardA [4] = new Vector2 (0, 			1.5f * cellHeight);
+		offsetsDiscardA [5] = new Vector2 (cellWidth, 	1.5f * cellHeight);
+		offsetsDiscardA [6] = new Vector2 (-cellWidth, 	0.5f * cellHeight);
+		offsetsDiscardA [7] = new Vector2 (0, 			0.5f * cellHeight);
+		offsetsDiscardA [8] = new Vector2 (cellWidth, 	0.5f * cellHeight);
+
+		offsetsDiscardB [0] = new Vector2 (-cellWidth, 	-0.5f * cellHeight);
+		offsetsDiscardB [1] = new Vector2 (0, 			-0.5f * cellHeight);
+		offsetsDiscardB [2] = new Vector2 (cellWidth, 	-0.5f * cellHeight);
+		offsetsDiscardB [3] = new Vector2 (-cellWidth, 	-1.5f * cellHeight);
+		offsetsDiscardB [4] = new Vector2 (0, 			-1.5f * cellHeight);
+		offsetsDiscardB [5] = new Vector2 (cellWidth, 	-1.5f * cellHeight);
+		offsetsDiscardB [6] = new Vector2 (-cellWidth, 	-2.5f * cellHeight);
+		offsetsDiscardB [7] = new Vector2 (0, 			-2.5f * cellHeight);
+		offsetsDiscardB [8] = new Vector2 (cellWidth, 	-2.5f * cellHeight);
 	}
 }
