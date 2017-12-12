@@ -23,7 +23,7 @@ public class AnimationManager : MonoBehaviour {
 
 			// Only draw cards which are still in the deck
 			if (playingCard.transform.parent == deckObject.transform) {
-				
+
 				// Prepare param hashtable for calling SetCardParentAfterAnimation when iTween finishes
 				Hashtable param = new Hashtable ();
 				param.Add ("Card", playingCard);
@@ -56,12 +56,19 @@ public class AnimationManager : MonoBehaviour {
 		GameObject parentToSet = (GameObject)param ["parentToSet"];
 		bool showFace = (bool)param ["showFace"];
 
-		playingCard.transform.SetParent (parentToSet.transform);
 		if (showFace) {
 			playingCard.ShowFront ();
 		} else {
 			playingCard.ShowBack ();
 		}
+
+		Image image = playingCard.GetComponent<Image> ();
+		image.sprite = playingCard.GetComponent<Image>().sprite;
+		//image.SetNativeSize();
+		//image.preserveAspect = true;
+		image.rectTransform.sizeDelta = new Vector2(139, 194);
+
+		playingCard.transform.SetParent (parentToSet.transform);
 	}
 
 	public IEnumerator ParentAllCardsToDeckObject(GameObject playerAreas){

@@ -1046,7 +1046,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children: []
   m_Father: {fileID: 1933096294}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -1714,7 +1714,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_Children: []
   m_Father: {fileID: 1933096294}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2210,16 +2210,16 @@ MonoBehaviour:
   cardPrefab: {fileID: 114163842402921054, guid: 8f18e7b035f8fa74690238caf21c8221,
     type: 2}
   frontSprites:
-  - {fileID: 21300000, guid: fcd358d5274c73c478545d4cc3c9e959, type: 3}
-  - {fileID: 21300000, guid: 2452bfd1aae9b36469e104abad6a116a, type: 3}
-  - {fileID: 21300000, guid: 7765a56a7132b874396f0af761e0de15, type: 3}
-  - {fileID: 21300000, guid: b916e6663e271ee4788c00d6621e01c0, type: 3}
-  - {fileID: 21300000, guid: 4d87f7c1ea074ad4ebe37397e8a041ed, type: 3}
-  - {fileID: 21300000, guid: 34a55ba9e7aec064ead9744e2a3524a9, type: 3}
-  - {fileID: 21300000, guid: c30c7f38d08bcf445b6add1f531b0493, type: 3}
-  - {fileID: 21300000, guid: 35ff2039a0e6d8647ba87ea68be344fa, type: 3}
-  - {fileID: 21300000, guid: e708f0c5003a227419d257efd4d24a3c, type: 3}
-  - {fileID: 21300000, guid: 7702262b6ce0c5b46ba9f0adaa1c07e3, type: 3}
+  - {fileID: 21300000, guid: 658e187318b711e4e9f44b9e411cb652, type: 3}
+  - {fileID: 21300000, guid: 7cd4f85d9a7115843a01c85c8bead76c, type: 3}
+  - {fileID: 21300000, guid: 5f2aaac765c5fba4abf3fbbf5807a916, type: 3}
+  - {fileID: 21300000, guid: a5eac553f3653e946b9dc0034eee1c86, type: 3}
+  - {fileID: 21300000, guid: 69455810894195f4f91333b036279721, type: 3}
+  - {fileID: 21300000, guid: 3a8de8d2f2631cc49aed3e9949a07eed, type: 3}
+  - {fileID: 21300000, guid: f5c8de529cbd72c40937c45642086b63, type: 3}
+  - {fileID: 21300000, guid: 7e9eb093a3837a342be6dc345d294f8b, type: 3}
+  - {fileID: 21300000, guid: 90a0b755cba73f648a4a29710da4a992, type: 3}
+  - {fileID: 21300000, guid: 8246069a2cb30f943bced1a213a2e58c, type: 3}
   backSprites:
   - {fileID: 21300000, guid: 26687b4a65f68354ca83bd181150ce9c, type: 3}
   - {fileID: 21300000, guid: 19c4d088e7242bb4eb149ee5730dcb42, type: 3}
@@ -2330,8 +2330,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 329266901}
-  - {fileID: 1507187152}
   - {fileID: 941892429}
+  - {fileID: 1507187152}
   - {fileID: 2111039682}
   m_Father: {fileID: 371001020}
   m_RootOrder: 2

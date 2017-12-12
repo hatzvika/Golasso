@@ -52,7 +52,9 @@ public class Draggable : MonoBehaviour, IDragHandler, IBeginDragHandler, IEndDra
 		var image = m_DraggingIcon.AddComponent<Image>();
 
 		image.sprite = GetComponent<Image>().sprite;
-		image.SetNativeSize();
+		//image.SetNativeSize();
+		//image.preserveAspect = true;
+		image.rectTransform.sizeDelta = new Vector2(139, 194);
 
 		// stop blocking raycasts, so that the drop area can see something is dropped on it
 		image.raycastTarget = false;
