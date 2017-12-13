@@ -271,8 +271,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e3e875fbe72228b45ac52243707dbf80, type: 3}
   - {fileID: 21300000, guid: 224a1927e5efb0543941b1e714d86e1f, type: 3}
   audioClips:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 502302f823f9a1d469b26b7400524bdf, type: 3}
+  - {fileID: 8300000, guid: 502302f823f9a1d469b26b7400524bdf, type: 3}
   - {fileID: 8300000, guid: 4bf8eb789b4494a4f8fc1c483a924153, type: 3}
 --- !u!114 &120560526
 MonoBehaviour:
