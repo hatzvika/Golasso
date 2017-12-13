@@ -231,7 +231,7 @@ GameObject:
   - component: {fileID: 120560525}
   - component: {fileID: 120560528}
   m_Layer: 5
-  m_Name: GoalImage
+  m_Name: Title Images In Game
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -263,9 +263,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 120560523}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e83b0e6dcc4007746926d676ac8884e0, type: 3}
+  m_Script: {fileID: 11500000, guid: c1156b48191056b459b7d16568950e63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  titles:
+  - {fileID: 21300000, guid: 52a2a79127719cd49bf067f29feb6449, type: 3}
+  - {fileID: 21300000, guid: e3e875fbe72228b45ac52243707dbf80, type: 3}
+  - {fileID: 21300000, guid: 224a1927e5efb0543941b1e714d86e1f, type: 3}
+  audioClips:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 8300000, guid: 4bf8eb789b4494a4f8fc1c483a924153, type: 3}
 --- !u!114 &120560526
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,7 +316,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 4bf8eb789b4494a4f8fc1c483a924153, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
