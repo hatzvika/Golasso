@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AnimationManager : MonoBehaviour {
+public class CardsAnimationManager : MonoBehaviour {
 
 	// These are used to animate the cards to their exact discard cell in the discard grid layout group
 	Vector2[] offsetsDiscardA = new Vector2[9];
@@ -84,15 +84,21 @@ public class AnimationManager : MonoBehaviour {
 		yield return new WaitUntil(() => ((discardObject.transform.childCount == 0) && (playedCardObject.transform.childCount == 0)));
 	}	
 
-	public IEnumerator ParentDiscardCardsToDeckObject(GameObject playerAreas){
+	public IEnumerator ParentDiscardCardsToDeckObject(GameObject playerAreas, ActionMarker.ActionSprite action){
 		GameObject deckObject = playerAreas.transform.Find ("Deck").gameObject;
 		GameObject discardObject = playerAreas.transform.Find ("Discard").gameObject;
+
+		ActionMarker actionMarker = playerAreas.GetComponentInChildren<ActionMarker> ();
+		actionMarker.SetMarker (action);
+		yield return new WaitForSeconds (1);
+
 
 		bool showFace = false;
 		float xOffset = 0;
 		float yOffset = 0.5f;
 		yield return MoveCardsAnimation (discardObject, deckObject, showFace, xOffset, yOffset);
 		yield return new WaitUntil(() => discardObject.transform.childCount == 0);
+		actionMarker.RemoveMarker ();
 	}	
 
 	private IEnumerator MoveCardsAnimation (GameObject originialObject, GameObject destinationObject, bool showFace, float xOffset, float yOffset)

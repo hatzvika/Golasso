@@ -38,13 +38,35 @@ public class Ball : MonoBehaviour {
 		}
 	}
 
+	public IEnumerator SetControllingTeamAnimation(GameManager.Player newControllingTeam, ActionMarker.ActionSprite action){
+		ActionMarker actionMarker;
+		if (newControllingTeam == GameManager.Player.A) {
+			actionMarker = GameObject.Find ("Player A Areas").GetComponentInChildren<ActionMarker> ();
+		}else{
+			actionMarker = GameObject.Find ("Player B Areas").GetComponentInChildren<ActionMarker> ();
+		}
+		actionMarker.SetMarker (action);
+		yield return new WaitForSeconds (ballAnimationTime / 2);
+		controllingTeam = newControllingTeam;
+		if (controllingTeam == GameManager.Player.A){
+			GetComponent<Image>().sprite = teamASprite;
+		}
+		else{
+			GetComponent<Image>().sprite = teamBSprite;
+		}
+		yield return new WaitForSeconds (ballAnimationTime / 2);
+		actionMarker.RemoveMarker ();
+	}
+
 	// This function is an asynchronous coRoutine because all the animations need to finish before the code resumes
-	public IEnumerator MoveBallAction (GameManager.Player movingPlayer){
+	public IEnumerator MoveBallAction (GameManager.Player movingPlayer, ActionMarker.ActionSprite action){
 		float moveBy = 2.1f;
 
 		// Move only if the controlling team is the one moving
 		if (movingPlayer == controllingTeam){
 			if (movingPlayer == GameManager.Player.A){
+				ActionMarker actionMarker = GameObject.Find ("Player A Areas").GetComponentInChildren<ActionMarker> ();
+				actionMarker.SetMarker (action);
 				if (ballPosition == BallPosition.PlayerAField){
 					iTween.MoveBy(gameObject, iTween.Hash("y" , moveBy, "time", ballAnimationTime, "easeType","easeInOutQuad"));
 					ballPosition = BallPosition.Middle;
@@ -58,8 +80,11 @@ public class Ball : MonoBehaviour {
 					ballPosition = BallPosition.PlayerBGoal;
 					yield return new WaitForSeconds (ballAnimationTime);
 				}
+				actionMarker.RemoveMarker ();
 			}
 			else{  // movingPlayer == PlayerB
+				ActionMarker actionMarker = GameObject.Find ("Player B Areas").GetComponentInChildren<ActionMarker> ();
+				actionMarker.SetMarker (action);
 				if (ballPosition == BallPosition.PlayerBField){
 					iTween.MoveBy(gameObject, iTween.Hash("y" , -moveBy, "time", ballAnimationTime, "easeType","easeInOutQuad"));
 					ballPosition = BallPosition.Middle;
@@ -73,11 +98,10 @@ public class Ball : MonoBehaviour {
 					ballPosition = BallPosition.PlayerAGoal;
 					yield return new WaitForSeconds (ballAnimationTime);
 				}
+				actionMarker.RemoveMarker ();
 			}
 		} else{
-			yield return new WaitForSeconds (ballAnimationTime/2);
-			SetControllingTeam(movingPlayer);
-			yield return new WaitForSeconds (ballAnimationTime/2);
+			yield return SetControllingTeamAnimation(movingPlayer, action);
 		}
 	}
 
