@@ -10,7 +10,7 @@ EditorBuildSettings:
     guid: e32e92ce06b4062489a4f4b5e2eedb90
   - enabled: 1
     path: Assets/_Scenes/Start Screen.unity
-    guid: 269734b68ebfead47bf51459d44bd664
+    guid: f781b464266a2a64c82b8a0725f7acff
   - enabled: 1
     path: Assets/_Scenes/Options.unity
     guid: 54c15e05ffcca83479118d9f12c7472c
