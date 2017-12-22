@@ -526,10 +526,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: cf6c6f80213000548b3972464823c472, type: 3}
   - {fileID: 8300000, guid: 5264a6d184c5a664ebf9e741c76d5c9d, type: 3}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   effectsAudioClips:
   - {fileID: 8300000, guid: 502302f823f9a1d469b26b7400524bdf, type: 3}
   - {fileID: 8300000, guid: 502302f823f9a1d469b26b7400524bdf, type: 3}
