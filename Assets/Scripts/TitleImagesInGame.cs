@@ -6,13 +6,14 @@ using UnityEngine.UI;
 public class TitleImagesInGame : MonoBehaviour {
 
 	public List<Sprite> titles;
-	public List<AudioClip> audioClips;
 
 	public enum TitleImages {
 		FirstHalf = 0,
 		SecondHalf = 1,
 		Goal = 2
 	}
+
+	private MusicManager musicManager;
 
 	private float animationTime = 2;
 	Image image;
@@ -21,18 +22,14 @@ public class TitleImagesInGame : MonoBehaviour {
 		image = GetComponent<Image> ();
 		image.enabled = false;
 
+		musicManager = GameObject.FindObjectOfType<MusicManager> ();
 	}
 
 	public IEnumerator ShowTitleImage(TitleImages titleImage){
 
 		//Play the titles' sound
-		AudioSource audioSource = GetComponent<AudioSource> ();
-		AudioOnOff audioOnOff = GameObject.FindObjectOfType<AudioOnOff> ();
-
-		if (audioOnOff.GetAudioOn ()) {
-			AudioClip audioClip = audioClips [(int)titleImage];
-			audioSource.clip = audioClip;
-			audioSource.Play ();
+		if (musicManager) {
+			musicManager.PlayTitleEffect (titleImage);
 		}
 
 		// Show and animate the title
@@ -46,6 +43,6 @@ public class TitleImagesInGame : MonoBehaviour {
 		}
 		yield return new WaitForSeconds (animationTime);
 		image.enabled = false;
-
 	}
+
 }

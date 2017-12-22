@@ -18,8 +18,12 @@ public class Ball : MonoBehaviour {
 	public Sprite teamBSprite;
 
 	private GameManager.Player controllingTeam;
+	private SettingsController settingController;
 	private BallPosition ballPosition;
-	private float ballAnimationTime = 1f;
+
+	void Start(){
+		settingController = GameObject.FindObjectOfType<SettingsController> ();
+	}
 
 	public void SetBallPosition(BallPosition newBallPosition){
 		ballPosition = newBallPosition;
@@ -39,6 +43,8 @@ public class Ball : MonoBehaviour {
 	}
 
 	public IEnumerator SetControllingTeamAnimation(GameManager.Player newControllingTeam, ActionMarker.ActionSprite action){
+		float ballAnimationTime = settingController.GetAnimationSpeed ();
+
 		ActionMarker actionMarker;
 		if (newControllingTeam == GameManager.Player.A) {
 			actionMarker = GameObject.Find ("Player A Areas").GetComponentInChildren<ActionMarker> ();
@@ -60,6 +66,7 @@ public class Ball : MonoBehaviour {
 
 	// This function is an asynchronous coRoutine because all the animations need to finish before the code resumes
 	public IEnumerator MoveBallAction (GameManager.Player movingPlayer, ActionMarker.ActionSprite action){
+		float ballAnimationTime = settingController.GetAnimationSpeed ();
 		float moveBy = 2.1f;
 
 		// Move only if the controlling team is the one moving
@@ -113,9 +120,5 @@ public class Ball : MonoBehaviour {
 		} else{
 			return false;
 		}
-	}
-
-	public float GetBallAnimationTime(){
-		return ballAnimationTime;
 	}
 }

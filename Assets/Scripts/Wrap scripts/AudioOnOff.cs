@@ -9,6 +9,7 @@ public class AudioOnOff : MonoBehaviour {
 	public Sprite offImage;
 
 	private MusicManager musicManager;
+	private TitleImagesInGame titleImagesInGame; // Also handles in-game title effects
 
 	private bool audioOn = true;
 	private float volumeOn;
@@ -21,7 +22,7 @@ public class AudioOnOff : MonoBehaviour {
 		button = GetComponent<Button> ();
 		button.image.overrideSprite = onImage;
 		if (musicManager) {
-			volumeOn = musicManager.GetVolume ();
+			volumeOn = musicManager.GetMusicVolume ();
 		}
 	}
 
@@ -29,10 +30,10 @@ public class AudioOnOff : MonoBehaviour {
 		audioOn = !audioOn;
 		if (audioOn){
 			button.image.overrideSprite = onImage;
-			musicManager.SetVolume (volumeOn);
+			musicManager.SetMusicVolume (volumeOn);
 		} else{
 			button.image.overrideSprite = offImage;
-			musicManager.SetVolume (0);
+			musicManager.SetMusicVolume (0);
 		}
 	}
 

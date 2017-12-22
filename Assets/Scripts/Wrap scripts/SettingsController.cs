@@ -24,6 +24,7 @@ public class SettingsController : MonoBehaviour {
 
 	private MusicManager musicManager;
 	private bool markActionsOnCards;
+	private float animationSpeed;
 
 	// Use this for initialization
 	void Start () {
@@ -33,26 +34,35 @@ public class SettingsController : MonoBehaviour {
 
 	void OnEnable (){
 		SwitchToButton (generalButton);
+		AnimationSpeedChanged (); // Set the initial animationSpeed to match the slider.
 	}
 	
 	public void MusicVolumeChanged () {
-		musicManager.SetVolume (musicVolumeSlider.value);
+		musicManager.SetMusicVolume (musicVolumeSlider.value);
 	}
 
 	public void EffectsVolumeChanged () {
-		Debug.Log (effectsVolumeSlider.value);
+		musicManager.SetEffectsVolume(effectsVolumeSlider.value);
 	}
 
 	public void AnimationSpeedChanged () {
 		if (animationSpeedSlider.value == 3){
 			animationSpeedTooltip.text = "No Animation";
+			animationSpeed = 0f;
 		}else if (animationSpeedSlider.value == 2){
 			animationSpeedTooltip.text = "Fast";
+			animationSpeed = 0.7f;
 		}else if (animationSpeedSlider.value == 1){
 			animationSpeedTooltip.text = "Medium";
+			animationSpeed = 1.4f;
 		}else {
 			animationSpeedTooltip.text = "Slow";
+			animationSpeed = 2.0f;
 		}
+	}
+
+	public float GetAnimationSpeed(){
+		return animationSpeed;
 	}
 
 	public void AILevelChanged(){
@@ -76,6 +86,10 @@ public class SettingsController : MonoBehaviour {
 		} else{
 			label.text = "Do Not Mark";
 		}
+	}
+
+	public bool GetMarkActionsOnCards (){
+		return markActionsOnCards;
 	}
 
 	public void SaveAndExit(){

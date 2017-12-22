@@ -13,9 +13,9 @@ public class SetStartVolume : MonoBehaviour {
 		if (musicManager){
 			if (PlayerPrefs.HasKey ("master_volume")) {
 				float volume = PlayerPrefsManager.GetMasterVolume ();
-				musicManager.SetVolume (volume);
+				musicManager.SetMusicVolume (volume);
 			} else{
-				musicManager.SetVolume (0.8f);
+				musicManager.SetMusicVolume (0.8f);
 			}
 		}
 	}

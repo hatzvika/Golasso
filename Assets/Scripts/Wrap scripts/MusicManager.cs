@@ -6,8 +6,10 @@ using UnityEngine;
 public class MusicManager : MonoBehaviour {
 
 	public AudioClip[] levelMusicChangeArray;
+	public AudioClip[] effectsAudioClips;
 
-	private AudioSource audioSource;
+	public AudioSource musicAudioSource;
+	public AudioSource effectsAudioSource;
 
 	// I don't want to restart playing a clip that is already playing
 	private int lastPlayedClip = -1;
@@ -26,24 +28,39 @@ public class MusicManager : MonoBehaviour {
 		AudioClip thisLevelMusic = levelMusicChangeArray [sceneNumber];
 
 		if (thisLevelMusic && lastPlayedClip != sceneNumber) {
-			audioSource = GetComponent<AudioSource> ();
-			audioSource.clip = thisLevelMusic;
+			musicAudioSource = GetComponent<AudioSource> ();
+			musicAudioSource.clip = thisLevelMusic;
 			if (sceneNumber == 0) { // Splash screen
-				audioSource.loop = false;
+				musicAudioSource.loop = false;
 			}
 			else{ 
-				audioSource.loop = true;
+				musicAudioSource.loop = true;
 			}
-			audioSource.Play ();
+			musicAudioSource.Play ();
 			lastPlayedClip = sceneNumber;
 		}
 	}
 
-	public void SetVolume (float volume){
-		audioSource.volume = volume;
+	public void SetMusicVolume (float volume){
+		musicAudioSource.volume = volume;
 	}
 
-	public float GetVolume (){
-		return audioSource.volume;
+	public float GetMusicVolume (){
+		return musicAudioSource.volume;
 	}
+
+	public void PlayTitleEffect(TitleImagesInGame.TitleImages titleImage){
+		AudioClip audioClip = effectsAudioClips [(int)titleImage];
+		effectsAudioSource.clip = audioClip;
+		effectsAudioSource.Play ();
+	}
+
+	public void SetEffectsVolume (float volume){
+		effectsAudioSource.volume = volume;
+	}
+
+	public float GetEffectsVolume (){
+		return effectsAudioSource.volume;
+	}
+
 }

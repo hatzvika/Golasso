@@ -15,18 +15,24 @@ public class ActionMarker : MonoBehaviour {
 		Number = 4
 	}
 
+	private SettingsController settingController;
 	private Image image;
 
 	void Start(){
+		settingController = GameObject.FindObjectOfType<SettingsController> ();
 		image = GetComponentInChildren<Image> ();	
 		image.enabled = false;
 	}
 
 	public void SetMarker (ActionSprite actionSprite){
-		image.enabled = true;
-		image.sprite = actionMarker [(int)actionSprite];
+		if (settingController.GetMarkActionsOnCards ()) {
+			image.enabled = true;
+			image.sprite = actionMarker [(int)actionSprite];
+		}
 	}
 	public void RemoveMarker(){
-		image.enabled = false;
+		if (settingController.GetMarkActionsOnCards ()) {
+			image.enabled = false;
+		}
 	}
 }
