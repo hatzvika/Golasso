@@ -6,6 +6,7 @@ public static class FirstMenuManager
 
 
 	private static string firstMenuName = "Main Interface";
+	//private static string firstMenuName = "Match Over"; // For debug purposes
 
 	public static string GetFirstMenuName ()
 	{
