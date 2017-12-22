@@ -26693,7 +26693,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: ABOUT
+  m_Text: GOLASSO RULES
 --- !u!222 &1033087653
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -34575,7 +34575,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 7dfe11779d7aca2458cc455ac095a5f4, type: 3}
     m_FontSize: 32
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 3
     m_MaxSize: 40
     m_Alignment: 0
@@ -34584,35 +34584,39 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\tLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet
-    metus sit amet mauris maximus egestas vitae nec nulla. Etiam vel elit orci. Vivamus
-    eget sagittis ante, et pretium sem. Mauris molestie turpis eget sem elementum
-    lobortis. Sed rhoncus eu lacus sed mollis. Donec malesuada sapien in elementum
-    dignissim. Donec eget hendrerit leo. Nulla quis dolor non purus malesuada efficitur.
-    Suspendisse mattis elit vel varius aliquet. Donec interdum facilisis leo eget
-    bibendum. Mauris mattis turpis id tortor porta, id interdum orci vehicula. Nulla
-    ut felis libero. In nibh lorem, pharetra sed purus quis, consectetur ultrices
-    orci. Curabitur ac nisl elit. Vestibulum ante ipsum primis in faucibus orci luctus
-    et ultrices posuere cubilia Curae;\n\n\tLorem ipsum dolor sit amet, consectetur
-    adipiscing elit. Donec sit amet metus sit amet mauris maximus egestas vitae nec
-    nulla. Etiam vel elit orci. Vivamus eget sagittis ante, et pretium sem. Mauris
-    molestie turpis eget sem elementum lobortis. Sed rhoncus eu lacus sed mollis.
-    Donec malesuada sapien in elementum dignissim. Donec eget hendrerit leo. Nulla
-    quis dolor non purus malesuada efficitur. Suspendisse mattis elit vel varius aliquet.
-    Donec interdum facilisis leo eget bibendum. Mauris mattis turpis id tortor porta,
-    id interdum orci vehicula. Nulla ut felis libero. In nibh lorem, pharetra sed
-    purus quis, consectetur ultrices orci. Curabitur ac nisl elit. Vestibulum ante
-    ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;\n\n\tLorem
-    ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet metus sit amet
-    mauris maximus egestas vitae nec nulla. Etiam vel elit orci. Vivamus eget sagittis
-    ante, et pretium sem. Mauris molestie turpis eget sem elementum lobortis. Sed
-    rhoncus eu lacus sed mollis. Donec malesuada sapien in elementum dignissim. Donec
-    eget hendrerit leo. Nulla quis dolor non purus malesuada efficitur. Suspendisse
-    mattis elit vel varius aliquet. Donec interdum facilisis leo eget bibendum. Mauris
-    mattis turpis id tortor porta, id interdum orci vehicula. Nulla ut felis libero.
-    In nibh lorem, pharetra sed purus quis, consectetur ultrices orci. Curabitur ac
-    nisl elit. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere
-    cubilia Curae;"
+  m_Text: "Golasso!\r\n\r\nJust like a football match, the game is played over two
+    halfs. The goal of the game is scoring more goals than your opponent. To score
+    a goal a player must make the ball move into their opponent\u2019s goal.\r\nEach
+    half is played as follows:\r\n\u2022\tEach player draws 3 cards.\r\n\u2022\tEvery
+    turn both players play a card from their hand simultaneously and resolve them
+    (details on how to resolve cards are in the Resolving Cards section).\r\n\u2022\tIf
+    a goal is scored, the ball is placed in the middle of the field with the color
+    of the player on the receiving end (not scoring) of the goal.\r\n\u2022\tDraw
+    a card (only if there are any in the deck).\r\n\r\nWhen the first half is over
+    (one player has no cards to play in their hand), place the ball in the middle
+    of the field each player shuffles their 10 action cards.\r\nResolving Cards\r\nImportant
+    symbols:\r\n\u2022\t Arrow - If you control the ball, move the ball towards your
+    opponent\u2019s goal by one section of the field. If you don\u2019t control the
+    ball, you steal the ball. Flip it so now you control it. If more than one arrow
+    appears on the card repeat this action multiple times. It is possible that your
+    first arrow will flip the ball and the other one will move it forward by one section.\r\n\u2022\t
+    Steal - If you don\u2019t control the ball, you steal the ball. Flip it so now
+    you control it. If you already control the ball this symbol does nothing.\r\n\u2022\t
+    Shuffle - Shuffle all the cards in you discard and deck (not including this card!)
+    back into your deck.\r\n\r\nIf the cards are of different numbers - Go through
+    the following steps:\r\n1.\t Check for canceling effect. If the lower numbered
+    card includes the number of the higher numbered card at the bottom of it crossed
+    out, then the higher numbered card is canceled and will not grant any benefit
+    to the player who played it.\r\n2.\tIf no cancellation took place, the owner of
+    the higher numbered card gets to make an Arrow action.\r\n3.\tIf the lower numbered
+    card has any symbols on it, carry out these actions in order from top to bottom.
+    \r\n\r\nIf both cards are the same number - Nothing happens.\r\n\r\nWhen one of
+    the players has no more cards to play, the half is over.\r\nIf the first half
+    is over, each player shuffles their cards and draws 3, just like at the beginning
+    of the game. Place the ball under the control of the player who didn\u2019t have
+    control at the beginning of the game.\r\nIf the second half is over, the player
+    with most goal tokens at the end of the game is the winner! In case of a tie,
+    play another match.\r\n"
 --- !u!222 &1317980096
 CanvasRenderer:
   m_ObjectHideFlags: 0
