@@ -25,24 +25,50 @@ public class SettingsController : MonoBehaviour {
 	private MusicManager musicManager;
 	private bool markActionsOnCards;
 	private float animationSpeed;
+	private string AILevel;
 
 	// Use this for initialization
 	void Start () {
 		musicManager = GameObject.FindObjectOfType<MusicManager> ();
 		markActionsOnCards = markActionOnCardsToggle.isOn;
+
+		// Load the settings values from the PlayerPrefsManager.cs
+		musicVolumeSlider.value = PlayerPrefsManager.GetMusicVolume ();
+		effectsVolumeSlider.value = PlayerPrefsManager.GetEffectsVolume ();
+		animationSpeedSlider.value = PlayerPrefsManager.GetAnimationSpeed ();
+
+		AILevel = PlayerPrefsManager.GetAILevel ();
+		Toggle[] toggleList = AILevelToggleGroup.GetComponentsInChildren<Toggle> ();
+		for (int toggleNum=0; toggleNum < toggleList.GetLength(0); toggleNum++){
+			Toggle currentToggle = toggleList [toggleNum];
+			if (currentToggle.GetComponentInChildren<Text>().text.ToString() == AILevel){
+				toggleList[toggleNum].isOn = true;
+			} else {
+				toggleList[toggleNum].isOn = false;	
+			}
+		}
+
+		if (PlayerPrefsManager.GetMarkActionsOnCard () == 1){
+			markActionOnCardsToggle.isOn = true;
+		} else{
+			markActionOnCardsToggle.isOn = false;
+		}
 	}
 
 	void OnEnable (){
 		SwitchToButton (generalButton);
-		AnimationSpeedChanged (); // Set the initial animationSpeed to match the slider.
 	}
 	
 	public void MusicVolumeChanged () {
-		musicManager.SetMusicVolume (musicVolumeSlider.value);
+		if (musicManager){
+			musicManager.SetMusicVolume (musicVolumeSlider.value);	
+		}
 	}
 
 	public void EffectsVolumeChanged () {
-		musicManager.SetEffectsVolume(effectsVolumeSlider.value);
+		if (musicManager) {
+			musicManager.SetEffectsVolume (effectsVolumeSlider.value);
+		}
 	}
 
 	public void AnimationSpeedChanged () {
@@ -66,16 +92,19 @@ public class SettingsController : MonoBehaviour {
 	}
 
 	public void AILevelChanged(){
-		string level = "";
 		foreach (Toggle toggle in AILevelToggleGroup.ActiveToggles ()) {
-			level = toggle.GetComponentInChildren<Text> ().text;
+			AILevel = toggle.GetComponentInChildren<Text> ().text;
 		}
 
-		if (level == "Easy"){
+		if (AILevel == "Easy"){
 			Debug.Log ("Easy Peasy");
 		} else {
 			Debug.Log ("Hardy");
 		}
+	}
+
+	public string GetAILevel(){
+		return AILevel;
 	}
 
 	public void MarkOnCardsChanged(){
@@ -93,13 +122,15 @@ public class SettingsController : MonoBehaviour {
 	}
 
 	public void SaveAndExit(){
-		Debug.Log ("Saving to prefs manager");
-		PlayerPrefsManager.SetMasterVolume (musicVolumeSlider.value);
-		// levelManager.LoadLevel ("Start Screen");
-	}
-
-	public void SetDefaults(){
-		musicVolumeSlider.value = 0.8f;
+		PlayerPrefsManager.SetMusicVolume (musicVolumeSlider.value);
+		PlayerPrefsManager.SetEffectsVolume (effectsVolumeSlider.value);
+		PlayerPrefsManager.SetAnimationSpeed ((int)animationSpeedSlider.value);
+		PlayerPrefsManager.SetAILevel (AILevel);
+		if (markActionOnCardsToggle.isOn) {
+			PlayerPrefsManager.SetMarkActionsOnCard (1);
+		} else {
+			PlayerPrefsManager.SetMarkActionsOnCard (0);
+		}
 	}
 
 	public void SwitchToButton (Button buttonToSwitchTo){

@@ -388,9 +388,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Hard
-
-'
+  m_Text: Hard
 --- !u!222 &48495984
 CanvasRenderer:
   m_ObjectHideFlags: 0
