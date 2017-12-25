@@ -529,7 +529,7 @@ MonoBehaviour:
   effectsAudioClips:
   - {fileID: 8300000, guid: 502302f823f9a1d469b26b7400524bdf, type: 3}
   - {fileID: 8300000, guid: 502302f823f9a1d469b26b7400524bdf, type: 3}
-  - {fileID: 8300000, guid: 4bf8eb789b4494a4f8fc1c483a924153, type: 3}
+  - {fileID: 8300000, guid: 786108994e791ea4eb52a11ef8599541, type: 3}
   musicAudioSource: {fileID: 1210200859}
   effectsAudioSource: {fileID: 1210200860}
 --- !u!4 &1210200858
