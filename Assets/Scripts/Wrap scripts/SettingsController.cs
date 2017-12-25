@@ -95,12 +95,6 @@ public class SettingsController : MonoBehaviour {
 		foreach (Toggle toggle in AILevelToggleGroup.ActiveToggles ()) {
 			AILevel = toggle.GetComponentInChildren<Text> ().text;
 		}
-
-		if (AILevel == "Easy"){
-			Debug.Log ("Easy Peasy");
-		} else {
-			Debug.Log ("Hardy");
-		}
 	}
 
 	public string GetAILevel(){

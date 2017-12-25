@@ -32,6 +32,11 @@ public class Ball : MonoBehaviour {
 		GetComponent<RectTransform> ().anchoredPosition = new Vector2 (0f, newAnchoredYPos);
 	}
 
+	// This method is for supplying the AI with the ball position.
+	public Ball.BallPosition GetBallPosition(){
+		return ballPosition;
+	}
+
 	public void SetControllingTeam(GameManager.Player newControllingTeam){
 		controllingTeam = newControllingTeam;
 		if (controllingTeam == GameManager.Player.A){
@@ -40,6 +45,11 @@ public class Ball : MonoBehaviour {
 		else{
 			GetComponent<Image>().sprite = teamBSprite;
 		}
+	}
+
+	// This method is for supplying the AI with controlling team information.
+	public GameManager.Player GetControllingTeam(){
+		return controllingTeam;
 	}
 
 	public IEnumerator SetControllingTeamAnimation(GameManager.Player newControllingTeam, ActionMarker.ActionSprite action){
